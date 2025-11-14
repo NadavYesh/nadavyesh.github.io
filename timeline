@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Nadav – Elliptical Career Timeline</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+  body {
+    margin: 0;
+    background: #020617;
+    font-family: 'Inter', sans-serif;
+    color: #e2e8f0;
+    display: flex;
+    justify-content: center;
+    padding: 40px 0;
+  }
+
+  .container {
+    width: 100%;
+    max-width: 1200px;
+    text-align: center;
+  }
+
+  /* INTRO */
+  .intro {
+    padding: 28px 40px;
+    background: #0f172a;
+    border-radius: 16px;
+    margin-bottom: 32px;
+    box-shadow: 0 18px 40px rgba(0,0,0,0.6);
+  }
+
+  .intro h2 {
+    margin: 0 0 8px;
+    font-size: 28px;
+    font-family: 'Poppins', sans-serif;
+    color: #f9fafb;
+  }
+
+  .intro p {
+    margin: 0;
+    font-size: 15px;
+    color: #cbd5e1;
+  }
+
+  /* FILTERS */
+  .filters {
+    margin-bottom: 18px;
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+  }
+
+  .filter-btn {
+    padding: 7px 16px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: 0.18s ease;
+    font-family: 'Poppins', sans-serif;
+  }
+
+  .filter-btn.edu {
+    background: rgba(56,189,248,0.18);
+    color: #38bdf8;
+    border-color: rgba(56,189,248,0.4);
+  }
+  .filter-btn.work {
+    background: rgba(249,115,22,0.18);
+    color: #f97316;
+    border-color: rgba(249,115,22,0.4);
+  }
+  .filter-btn.course {
+    background: rgba(168,85,247,0.18);
+    color: #a855f7;
+    border-color: rgba(168,85,247,0.4);
+  }
+
+  .filter-btn.active.edu { background:#38bdf8; color:#020617; }
+  .filter-btn.active.work { background:#f97316; color:#020617; }
+  .filter-btn.active.course { background:#a855f7; color:#020617; }
+
+  /* TIMELINE AREA */
+  .timeline-wrapper {
+    position: relative;
+    width: 1000px;
+    max-width: 100%;
+    height: 520px;
+    margin: 0 auto 26px auto;
+  }
+
+  .ellipse-border {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 820px;
+    max-width: 90%;
+    height: 360px;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    border: 3px dashed #4b5563;
+    box-shadow: 0 0 40px rgba(15,23,42,0.9);
+  }
+
+  .event-dot {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    border-radius: 999px;
+    border: 4px solid #020617;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+    box-shadow: 0 0 0 6px rgba(15,23,42,0.8);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  /* bigger dots for long events */
+  .event-dot.long {
+    width: 30px;
+    height: 30px;
+    box-shadow: 0 0 0 8px rgba(248,250,252,0.15);
+  }
+
+  .event-dot.active {
+    transform: translate(-50%, -50%) scale(1.12);
+    box-shadow: 0 0 0 10px rgba(248,250,252,0.25);
+  }
+
+  .dot-edu { background:#38bdf8; }
+  .dot-work { background:#f97316; }
+  .dot-course { background:#a855f7; }
+
+  .event-label {
+    position: absolute;
+    width: 190px;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: 'Poppins', sans-serif;
+    text-align: center;
+    color: #f1f5f9;
+    pointer-events: auto;
+    cursor: pointer;
+    transform: translate(-50%, -50%);
+  }
+
+  /* DETAIL PANEL */
+  .detail-card {
+    margin: 0 auto;
+    max-width: 740px;
+    background: #020617;
+    border-radius: 18px;
+    padding: 20px 24px;
+    border: 1px solid #1f2937;
+    box-shadow: 0 18px 40px rgba(0,0,0,0.7);
+    text-align: left;
+  }
+
+  .detail-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.11em;
+    background: #111827;
+    color: #9ca3af;
+    margin-bottom: 6px;
+  }
+
+  .detail-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 999px;
+  }
+
+  .detail-title {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    font-size: 20px;
+    margin-bottom: 4px;
+  }
+
+  .detail-date {
+    font-size: 13px;
+    color: #9ca3af;
+    margin-bottom: 10px;
+  }
+
+  .detail-desc {
+    font-size: 14px;
+    color: #e5e7eb;
+    line-height: 1.45;
+  }
+
+  .detail-desc a {
+    color: #38bdf8;
+  }
+
+  @media (max-width: 900px) {
+    .timeline-wrapper {
+      height: 480px;
+    }
+    .ellipse-border {
+      width: 90%;
+      height: 320px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <div class="intro">
+    <h2>About Me</h2>
+    <p>Your intro text here…</p>
+  </div>
+
+  <div class="filters">
+    <button class="filter-btn edu active" data-cat="edu">Education</button>
+    <button class="filter-btn work active" data-cat="work">Work</button>
+    <button class="filter-btn course active" data-cat="course">Courses</button>
+  </div>
+
+  <div class="timeline-wrapper" id="timeline">
+    <div class="ellipse-border"></div>
+  </div>
+
+  <div class="detail-card" id="detail-card">
+    <div class="detail-badge">
+      <span class="detail-dot" id="detail-dot"></span>
+      <span id="detail-cat-label">Event</span>
+    </div>
+    <h3 class="detail-title" id="detail-title">Click an event on the timeline</h3>
+    <div class="detail-date" id="detail-date">
+      Your roles, degrees and courses will appear here.
+    </div>
+    <div class="detail-desc" id="detail-desc">
+      Choose a point on the ellipse to see more details.
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const catConfig = {
+    edu:   { label: "Education", color: "#38bdf8" },
+    work:  { label: "Work",      color: "#f97316" },
+    course:{ label: "Course",    color: "#a855f7" }
+  };
+
+  const events = [
+    {cat:"course", title:"Advanced Analytics for a Better World", date:"Nov 2025",
+     desc:"Completed international AABW program on applied analytics for societal impact.", long:false},
+    {cat:"course", title:"SQL for Data Science — IBM (edX)", date:"30 Sep 2025",
+     desc:`Completed with certification.<br><a href="https://www.credly.com/badges/50f596d6-b204-4560-b210-a4e689f6ce4e" target="_blank">Certificate link</a>`, long:false},
+    {cat:"edu", title:"MSc Data Science — UvA", date:"Sep 2025 – Present",
+     desc:"Graduate focus on machine learning, optimization and end-to-end data science.", long:true},
+    {cat:"work", title:"Teaching Assistant — RUG", date:"Dec 2022 – Mar 2023",
+     desc:"Transformed handwritten lecture notes into clear LaTeX slides; improved student satisfaction and attendance.", long:true},
+    {cat:"edu", title:"BSc Econometrics & OR — RUG", date:"Sep 2021 – Nov 2024",
+     desc:"Thesis on last-mile delivery Vehicle Routing Problem with realistic operational constraints.", long:true},
+    {cat:"course", title:"Big Data (Palantir Foundry)", date:"Jan 2018",
+     desc:"Hands-on big data course using Palantir Foundry; completed with excellence.", long:false},
+    {cat:"work", title:"Data Analyst — PM Office", date:"Nov 2016 – Apr 2019",
+     desc:"Performed market research, drove adoption of a new data system, and managed a SQL query library.", long:true}
+  ];
+
+  const timeline = document.getElementById("timeline");
+  const Rx = 410;  // ellipse radii
+  const Ry = 180;
+  const cx = 500;  // virtual center
+  const cy = 260;
+
+  const dots = [];
+  const labels = [];
+  let selectedIndex = null;
+
+  // place dots + labels
+  events.forEach((ev, i) => {
+    const angle = (i / events.length) * Math.PI * 2 - Math.PI/2;
+    const x = cx + Rx * Math.cos(angle);
+    const y = cy + Ry * Math.sin(angle);
+
+    const labelRadiusX = Rx + 80;
+    const labelRadiusY = Ry + 80;
+    const lx = cx + labelRadiusX * Math.cos(angle);
+    const ly = cy + labelRadiusY * Math.sin(angle);
+
+    const dot = document.createElement("div");
+    dot.className = `event-dot dot-${ev.cat}` + (ev.long ? " long" : "");
+    const dotLeft = (x / 1000) * timeline.clientWidth;
+    const dotTop  = (y / 520)  * timeline.clientHeight;
+    dot.style.left = dotLeft + "px";
+    dot.style.top  = dotTop  + "px";
+    dot.dataset.index = i;
+    dot.dataset.cat   = ev.cat;
+
+    const label = document.createElement("div");
+    label.className = "event-label";
+    const labLeft = (lx / 1000) * timeline.clientWidth;
+    const labTop  = (ly / 520)  * timeline.clientHeight;
+    label.style.left = labLeft + "px";
+    label.style.top  = labTop  + "px";
+    label.innerHTML = ev.title;
+    label.dataset.index = i;
+    label.dataset.cat   = ev.cat;
+
+    timeline.appendChild(dot);
+    timeline.appendChild(label);
+    dots.push(dot);
+    labels.push(label);
+  });
+
+  // detail panel
+  const detailDot   = document.getElementById("detail-dot");
+  const detailCatLb = document.getElementById("detail-cat-label");
+  const detailTitle = document.getElementById("detail-title");
+  const detailDate  = document.getElementById("detail-date");
+  const detailDesc  = document.getElementById("detail-desc");
+
+  function selectEvent(idx) {
+    const ev = events[idx];
+    dots.forEach(d => d.classList.remove("active"));
+    if (dots[idx]) dots[idx].classList.add("active");
+
+    const conf = catConfig[ev.cat];
+    detailDot.style.background = conf.color;
+    detailCatLb.textContent    = conf.label;
+    detailTitle.textContent    = ev.title;
+    detailDate.textContent     = ev.date;
+    detailDesc.innerHTML       = ev.desc;
+
+    selectedIndex = idx;
+  }
+
+  dots.forEach(dot => {
+    dot.addEventListener("click", () => {
+      const idx = parseInt(dot.dataset.index);
+      selectEvent(idx);
+    });
+  });
+
+  labels.forEach(label => {
+    label.addEventListener("click", () => {
+      const idx = parseInt(label.dataset.index);
+      selectEvent(idx);
+    });
+  });
+
+  // filters
+  const btns = document.querySelectorAll(".filter-btn");
+
+  btns.forEach(btn => {
+    btn.addEventListener("click", () => {
+      btn.classList.toggle("active");
+      const activeCats = Array.from(btns)
+        .filter(b => b.classList.contains("active"))
+        .map(b => b.dataset.cat);
+
+      dots.forEach((dot, i) => {
+        const cat = dot.dataset.cat;
+        const shown = activeCats.includes(cat);
+        dot.style.display   = shown ? "block" : "none";
+        labels[i].style.display = shown ? "block" : "none";
+      });
+
+      if (selectedIndex !== null && !activeCats.includes(events[selectedIndex].cat)) {
+        dots[selectedIndex].classList.remove("active");
+        selectedIndex = null;
+        detailDot.style.background = "#4b5563";
+        detailCatLb.textContent = "Event";
+        detailTitle.textContent = "Click an event on the timeline";
+        detailDate.textContent  = "Your roles, degrees and courses will appear here.";
+        detailDesc.textContent  = "Choose a point on the ellipse to see more details.";
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
